@@ -39,6 +39,7 @@ Once GML is set up, drop the mod `.zip` file(s) into the `mods/` folder inside y
 | [Game Limits Mod](#game-limits-mod-der_floh-game_limits_mod)       | der_floh | Tune performance-related caps (mortars, chunk loading, electric chain) via settings tab |
 | [Performance Mod](#performance-mod-der_floh-performance_mod)       | der_floh | Optimised chunk loading, tile effects, and level generation to reduce frame time spikes |
 | [No Holes Mod](#no-holes-mod-der_floh-no_holes_mod)                | der_floh | Fills air pockets in world generation so underground rock is always solid               |
+| [Bug Fixes Mod](#bug-fixes-mod-ingenitus-bug_fixes_mod)            | Ingenitus | Fixes quota overflow, save loss, stuck pause, loot duplication and more (each toggleable) |
 | [AutoPassiveChooser](#other-mods-not-by-me)                        | NanobotZ | Automatically selects passives on level-up based on a configurable priority list        |
 
 ---
@@ -190,6 +191,25 @@ Fills **air pockets** that vanilla world generation leaves behind. Runs a post-p
 No configuration options. To disable, uninstall the mod.
 
 > **Note:** Only affects newly generated chunks. Existing saves are unaffected until you enter a previously unloaded area.
+
+---
+
+## Contributed Mods
+
+### Bug Fixes Mod (`ingenitus-bug_fixes_mod`)
+
+Fixes vanilla bugs. Each fix can be switched off on its own in the **Bug Fixes** tab of the in-game settings menu.
+
+| Fix                   | What goes wrong in vanilla                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| Coal quota overflow   | From day 62 the coal quota goes negative (integer overflow)                                     |
+| Save restore          | A missing or corrupt save loads defaults although an intact backup exists, then the backup is overwritten too |
+| Stuck pause           | Resuming with Esc can leave the game paused with no menu                                        |
+| Negative cash         | Buying the maximum affordable employees can leave cash below zero                               |
+| Loot duplication      | Loot merged or collected in the same frame can be counted twice                                 |
+| Loot cap during bursts| Nukes and earthquakes spawn thousands of pickups because the loot cap never engages within a frame |
+| Explosion edges       | Explosions never reach the bottom row and right column of their circle                          |
+| x0 employee boxes     | Float leftovers after promotions show "x0" boxes with a sell button                             |
 
 ---
 
