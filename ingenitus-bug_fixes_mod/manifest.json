@@ -1,8 +1,8 @@
 {
     "name": "bug_fixes_mod",
     "namespace": "ingenitus",
-    "version_number": "1.0.0",
-    "description": "Fixes vanilla bugs: late-day coal quota overflow, progress loss from a corrupt save, stuck pause after Esc, negative cash, duplicated loot, loot cap ignored during nukes, clipped explosion edges and x0 employee boxes. Each fix can be switched off.",
+    "version_number": "1.1.0",
+    "description": "Fixes vanilla bugs: late-day coal quota overflow, progress loss from a corrupt save, stuck pause after Esc, negative cash, duplicated loot, loot cap ignored during nukes, clipped explosion edges, x0 employee boxes, chest upgrade cards with the wrong multiplier and the AOE miner gap. Each fix can be switched off.",
     "website_url": "",
     "dependencies": [],
     "extra": {
@@ -60,6 +60,16 @@
                     },
                     "fix_zero_employee_boxes": {
                         "title": "Hide employee boxes that show x0",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "fix_card_multiplier": {
+                        "title": "Chest upgrade cards keep their own chest's multiplier",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "fix_aoe_gap": {
+                        "title": "AOE miners also hit the tiles right next to their target",
                         "type": "boolean",
                         "default": true
                     },

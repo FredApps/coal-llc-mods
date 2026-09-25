@@ -15,6 +15,8 @@ const FIXES := {
 	"fix_loot_burst": "Loot cap holds during one-frame bursts (nukes, earthquakes)",
 	"fix_blast_edges": "Explosions reach their bottom and right edges",
 	"fix_zero_employee_boxes": "Hide employee boxes that show x0",
+	"fix_card_multiplier": "Chest upgrade cards keep their own chest's multiplier",
+	"fix_aoe_gap": "AOE miners also hit the tiles right next to their target",
 }
 
 var mod_dir_path: String
@@ -36,6 +38,9 @@ func install_hooks() -> void:
 		"res://scenes/tilemaps/tile_map_manager.gd": "scenes/tilemaps/tile_map_manager.hooks.gd",
 		"res://scenes/Interfaces/Management/employee_level_icon_2.gd": "scenes/Interfaces/Management/employee_level_icon_2.hooks.gd",
 		"res://resources/Employees/Scripts/employee_manager.gd": "resources/Employees/Scripts/employee_manager.hooks.gd",
+		"res://scripts/Chest.gd": "scripts/Chest.hooks.gd",
+		"res://scenes/AutoMiners/multi_miner.gd": "scenes/AutoMiners/multi_miner.hooks.gd",
+		"res://scenes/AutoMiners/multi_miner_flying.gd": "scenes/AutoMiners/multi_miner_flying.hooks.gd",
 		# Settings tab.
 		"res://scenes/Interfaces/Menus/settings_2.gd": "scenes/Interfaces/Menus/settings_2.hooks.gd",
 	}

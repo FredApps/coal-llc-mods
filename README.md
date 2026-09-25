@@ -210,6 +210,8 @@ Fixes vanilla bugs. Each fix can be switched off on its own in the **Bug Fixes**
 | Loot cap during bursts| Nukes and earthquakes spawn thousands of pickups because the loot cap never engages within a frame |
 | Explosion edges       | Explosions never reach the bottom row and right column of their circle                          |
 | x0 employee boxes     | Float leftovers after promotions show "x0" boxes with a sell button                             |
+| Upgrade-card multiplier | A chest's upgrade card takes the multiplier of whichever chest was rolled last                |
+| AOE miner gap         | AOE miners never hit the tiles directly beside their target (4 of 8 tiles at range 1)           |
 
 ---
 

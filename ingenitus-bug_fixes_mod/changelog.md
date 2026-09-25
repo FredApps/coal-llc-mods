@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] – 2026-09-25
+
+- **Chest upgrade-card multiplier** – every chest's passive-upgrade card shared one pickup effect
+  (`PASSIVE_UPGRADE.duplicate()` is shallow), so a card's multiplier was whatever the most recently
+  rolled chest set: a level-1 card read x4 after a level-4 chest rolled, a level-4 card dropped to
+  x1 after a level-1 chest. Each card now keeps its own chest's multiplier.
+- **AOE miner gap** – AOE employees' strikes skipped every tile in the row and column of their
+  target (`get_radius` used `and` where `or` was meant): range 1 hit 4 tiles instead of 8, range 2
+  hit 16 instead of 24. They now hit the full square (miners and flying miners).
+
 ## [1.0.0] – 2026-09-25
 
 - Initial release. Adds a **Bug Fixes** tab; every fix can be switched off on its own.
