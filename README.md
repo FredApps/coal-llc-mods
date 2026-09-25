@@ -39,6 +39,7 @@ Once GML is set up, drop the mod `.zip` file(s) into the `mods/` folder inside y
 | [Game Limits Mod](#game-limits-mod-der_floh-game_limits_mod)       | der_floh | Tune performance-related caps (mortars, chunk loading, electric chain) via settings tab |
 | [Performance Mod](#performance-mod-der_floh-performance_mod)       | der_floh | Optimised chunk loading, tile effects, and level generation to reduce frame time spikes |
 | [No Holes Mod](#no-holes-mod-der_floh-no_holes_mod)                | der_floh | Fills air pockets in world generation so underground rock is always solid               |
+| [Extra Passives Mod](#extra-passives-mod-ingenitus-extra_passives_mod) | Ingenitus | Ten new passives for guns, axes, vacuum, drill, earthquake and bombs              |
 | [AutoPassiveChooser](#other-mods-not-by-me)                        | NanobotZ | Automatically selects passives on level-up based on a configurable priority list        |
 
 ---
@@ -190,6 +191,29 @@ Fills **air pockets** that vanilla world generation leaves behind. Runs a post-p
 No configuration options. To disable, uninstall the mod.
 
 > **Note:** Only affects newly generated chunks. Existing saves are unaffected until you enter a previously unloaded area.
+
+---
+
+## Contributed Mods
+
+### Extra Passives Mod (`ingenitus-extra_passives_mod`)
+
+Ten new level-up passives for weapons and tools that had few or none. A passive is only offered while you own an item it applies to (or a vacuum), and leaves the offers once it is capped.
+
+| Passive           | Offered with                     | Effect                                                              |
+| ----------------- | -------------------------------- | ------------------------------------------------------------------- |
+| Gun Fire Rate     | pistol, shotgun, rifle, minigun  | Shorter gun cooldown (never below 0.05 s)                          |
+| Extra Projectiles | guns                             | Extra bullets per shot                                             |
+| Bullet Pierce     | guns                             | Bullets pass through extra breakable blocks                        |
+| Axe Spin-Up Speed | axe, battleaxe                   | Reaches full spin faster                                           |
+| Vacuum Range      | a vacuum                         | Longer hose                                                        |
+| Vacuum Suction    | a vacuum                         | Wider grab area                                                    |
+| Drill Speed       | drill                            | Drills dig faster                                                  |
+| Earthquake Damage | earthquake inducer               | More damage                                                        |
+| Earthquake Radius | earthquake inducer               | Bigger radius                                                      |
+| Bomb Radius       | bombs, nuke                      | Bigger blasts, with a dial-back slider in the passive bonuses panel |
+
+All bomb and earthquake blasts are limited to 48 tiles (the loaded area around the player). Assassins can also be offered Wet Damage. Works with AutoPassiveChooser and the Tick Upgrade Mod.
 
 ---
 
