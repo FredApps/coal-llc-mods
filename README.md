@@ -39,6 +39,7 @@ Once GML is set up, drop the mod `.zip` file(s) into the `mods/` folder inside y
 | [Game Limits Mod](#game-limits-mod-der_floh-game_limits_mod)       | der_floh | Tune performance-related caps (mortars, chunk loading, electric chain) via settings tab |
 | [Performance Mod](#performance-mod-der_floh-performance_mod)       | der_floh | Optimised chunk loading, tile effects, and level generation to reduce frame time spikes |
 | [No Holes Mod](#no-holes-mod-der_floh-no_holes_mod)                | der_floh | Fills air pockets in world generation so underground rock is always solid               |
+| [Employee Balance Mod](#employee-balance-mod-ingenitus-employee_balance_mod) | Ingenitus | Bomber and elementalist tiers mine faster as they rank up                   |
 | [AutoPassiveChooser](#other-mods-not-by-me)                        | NanobotZ | Automatically selects passives on level-up based on a configurable priority list        |
 
 ---
@@ -190,6 +191,22 @@ Fills **air pockets** that vanilla world generation leaves behind. Runs a post-p
 No configuration options. To disable, uninstall the mod.
 
 > **Note:** Only affects newly generated chunks. Existing saves are unaffected until you enter a previously unloaded area.
+
+---
+
+## Contributed Mods
+
+### Employee Balance Mod (`ingenitus-employee_balance_mod`)
+
+In vanilla every bomber and elementalist tier swings at the intern's mining speed (`0.5`), while miners and barbarians speed up with tier. This mod gives them the same kind of ladder. Their bombs and elemental globs are unchanged.
+
+| Employee | Vanilla | Modded |
+| -------- | ------- | ------ |
+| Weak / Medium / Strong / Fast Bomber | `0.5` | `0.6` / `0.7` / `0.8` / `0.9` |
+| Artillery | `0.5` | `1.0` |
+| Weak / Medium / Strong Elementalist | `0.5` | `0.6` / `0.8` / `1.0` |
+
+No configuration options besides `enabled` in the config file.
 
 ---
 
