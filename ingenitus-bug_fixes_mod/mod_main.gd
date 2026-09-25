@@ -27,11 +27,15 @@ func _init() -> void:
 	mod_dir_path = ModLoaderMod.get_unpacked_dir().path_join(MOD_DIR)
 	extensions_dir_path = mod_dir_path.path_join("extensions")
 	install_hooks()
+	# Runs before the game's Gvars autoload reads the saves at startup.
+	if is_on("fix_save_restore"):
+		for pair in SAVE_FILES:
+			restore_if_needed(pair[0], pair[1])
 
 
 func install_hooks() -> void:
 	var hooks := {
-		"res://scripts/Gvars.gd": "scripts/Gvars.hooks.gd",
+		"res://scenes/Stages/management_screen.gd": "scenes/Stages/management_screen.hooks.gd",
 		"res://scripts/PauseMenu.gd": "scripts/PauseMenu.hooks.gd",
 		"res://scripts/ItemPickup2.gd": "scripts/ItemPickup2.hooks.gd",
 		"res://scripts/loot_drops.gd": "scripts/loot_drops.hooks.gd",
@@ -54,6 +58,79 @@ func _ready() -> void:
 		if not bool(get_config().data.get(key, true)):
 			off.append(key)
 	ModLoaderLog.info("Ready! enabled=%s fixes_off=%s" % [str(get_enabled()), str(off)], LOG_NAME)
+	# Connected once every autoload is ready, so it runs after Gvars.on_StartDay.
+	(func() -> void: Bus.StartDay.connect(_on_start_day)).call_deferred()
+
+
+# --- fix_quota_overflow ---
+# Past the end of COAL_QUOTAS, Gvars.increaseQuota multiplies the last quota by
+# `4 ** (day - len)`, an integer power. From day 62 (32 days past the 30-day table)
+# it overflows and the quota goes negative (about -1.1e29), so every day counts as
+# met. The same growth is computed in floating point instead; earlier days are
+# identical. Applied after vanilla sets the day's quota, and to the "Upcoming Coal
+# Quota" line on the management screen (management_screen.hooks.gd).
+
+# The quota for a day, or NAN when vanilla's own value is correct (table days,
+# peaceful mode, or the fix switched off).
+static func fixed_quota(day: int) -> float:
+	if not is_on("fix_quota_overflow"):
+		return NAN
+	var table: Array = Gvars.COAL_QUOTAS
+	var past_table: int = day - table.size()
+	if past_table < 0 or Gvars.mode == Gconsts.Mode.PEACEFUL:
+		return NAN
+	var grown: float = table[table.size() - 1] * pow(4.0, past_table)
+	return grown * 0.5 if Gvars.mode == Gconsts.Mode.TOUGH_START else grown
+
+
+func _on_start_day() -> void:
+	var quota := fixed_quota(Gvars.dayCount)
+	if not is_nan(quota):
+		Gvars.coalQuota = quota
+		Bus.UpdateUI.emit()
+
+
+# --- fix_save_restore ---
+# Every save file has a backup copy, but vanilla only reads the primary. A missing
+# primary loads defaults, a corrupt one loads nothing, and the next save then
+# overwrites the good backup too, so progress is lost for good. If the primary
+# cannot be parsed and the backup can, the backup is put back before the game
+# loads (mod _init runs before the Gvars autoload). Paths match Gconsts.
+const SAVE_FILES := [
+	["user://v04_saveglobals.save", "user://v04_saveglobals_backup.save"],
+	["user://v04_records.save", "user://v04_records_backup.save"],
+	["user://v04_modifiers.save", "user://v04_modifiers_backup.save"],
+]
+
+
+static func restore_if_needed(primary: String, backup: String) -> void:
+	if _read_json_line(primary) != "":
+		return
+	var line := _read_json_line(backup)
+	if line == "":
+		return
+	var temp := primary + ".restore"
+	var file := FileAccess.open(temp, FileAccess.WRITE)
+	if file == null:
+		ModLoaderLog.error("Could not write %s to restore %s from its backup" % [temp, primary], LOG_NAME)
+		return
+	file.store_string(line)
+	file.close()
+	DirAccess.rename_absolute(temp, primary)
+	ModLoaderLog.warning("%s was missing or corrupt; restored it from %s" % [primary, backup], LOG_NAME)
+
+
+# The file's first line if it parses as a JSON object (how vanilla reads saves), else "".
+static func _read_json_line(path: String) -> String:
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return ""
+	var line := file.get_line()
+	file.close()
+	var json := JSON.new()
+	if json.parse(line) != OK or not json.data is Dictionary:
+		return ""
+	return line
 
 
 # True when the mod is enabled and the given fix is switched on.

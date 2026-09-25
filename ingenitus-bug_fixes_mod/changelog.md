@@ -9,6 +9,11 @@
 - **AOE miner gap** – AOE employees' strikes skipped every tile in the row and column of their
   target (`get_radius` used `and` where `or` was meant): range 1 hit 4 tiles instead of 8, range 2
   hit 16 instead of 24. They now hit the full square (miners and flying miners).
+- No longer hooks `Gvars.gd`: together with `der_floh-ore_value_mod`'s script extension of the same
+  script, the first launch after installing (when GML builds its hook pack) failed to load player
+  skins and settings. The quota is now corrected right after a day starts and on the management
+  screen's "Upcoming Coal Quota" line; damaged saves are restored from their backups when the mod
+  starts, before the game reads them.
 
 ## [1.0.0] – 2026-09-25
 
