@@ -39,6 +39,7 @@ Once GML is set up, drop the mod `.zip` file(s) into the `mods/` folder inside y
 | [Game Limits Mod](#game-limits-mod-der_floh-game_limits_mod)       | der_floh | Tune performance-related caps (mortars, chunk loading, electric chain) via settings tab |
 | [Performance Mod](#performance-mod-der_floh-performance_mod)       | der_floh | Optimised chunk loading, tile effects, and level generation to reduce frame time spikes |
 | [No Holes Mod](#no-holes-mod-der_floh-no_holes_mod)                | der_floh | Fills air pockets in world generation so underground rock is always solid               |
+| [Chest QoL Mod](#chest-qol-mod-ingenitus-chest_qol_mod)            | Ingenitus | Open/loot chests on touch, reach them from their protective tiles, no outclassed scrolls |
 | [AutoPassiveChooser](#other-mods-not-by-me)                        | NanobotZ | Automatically selects passives on level-up based on a configurable priority list        |
 
 ---
@@ -190,6 +191,21 @@ Fills **air pockets** that vanilla world generation leaves behind. Runs a post-p
 No configuration options. To disable, uninstall the mod.
 
 > **Note:** Only affects newly generated chunks. Existing saves are unaffected until you enter a previously unloaded area.
+
+---
+
+## Contributed Mods
+
+### Chest QoL Mod (`ingenitus-chest_qol_mod`)
+
+Less fiddly chests. Adds a **Chests** tab to the in-game settings menu.
+
+| Option                   | Default | Description                                                                                       |
+| ------------------------ | ------- | ------------------------------------------------------------------------------------------------- |
+| Open on touch            | `true`  | Touching a chest opens it without pressing interact                                              |
+| Loot on touch            | `true`  | With One-Click Looting owned, touching a chest loots it straight to your inventory                |
+| Protective-ring reach    | `true`  | Once one of a chest's eight protective tiles is mined, standing on any of them takes the chest    |
+| No outclassed scrolls    | `true`  | Power-up scrolls for weapons no stronger than one you own become passive-upgrade cards            |
 
 ---
 
