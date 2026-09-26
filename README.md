@@ -39,6 +39,7 @@ Once GML is set up, drop the mod `.zip` file(s) into the `mods/` folder inside y
 | [Game Limits Mod](#game-limits-mod-der_floh-game_limits_mod)       | der_floh | Tune performance-related caps (mortars, chunk loading, electric chain) via settings tab |
 | [Performance Mod](#performance-mod-der_floh-performance_mod)       | der_floh | Optimised chunk loading, tile effects, and level generation to reduce frame time spikes |
 | [No Holes Mod](#no-holes-mod-der_floh-no_holes_mod)                | der_floh | Fills air pockets in world generation so underground rock is always solid               |
+| [Move Speed Slider Mod](#move-speed-slider-mod-ingenitus-move_speed_slider_mod) | Ingenitus | Walk Speed slider (Tab) that can raise walking up to sprint speed                  |
 | [AutoPassiveChooser](#other-mods-not-by-me)                        | NanobotZ | Automatically selects passives on level-up based on a configurable priority list        |
 
 ---
@@ -190,6 +191,16 @@ Fills **air pockets** that vanilla world generation leaves behind. Runs a post-p
 No configuration options. To disable, uninstall the mod.
 
 > **Note:** Only affects newly generated chunks. Existing saves are unaffected until you enter a previously unloaded area.
+
+---
+
+## Contributed Mods
+
+### Move Speed Slider Mod (`ingenitus-move_speed_slider_mod`)
+
+Adds a **Walk Speed** slider to the passive bonuses panel (Tab). Walking can be raised up to your current sprint speed and never past it: the sprint passive, the sprint slider and the speed quest reward all count. Handy with auto-sprint, or to move at sprint pace without holding the key.
+
+The value is stored in the mod config (`walk_speed_bonus`, set by the slider), not in your save, so removing the mod leaves saves untouched. Besides that, only `enabled` in the config file.
 
 ---
 
