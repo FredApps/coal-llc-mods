@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1] – 2026-09-26
+
+- **Loot cap during bursts** no longer changes ordinary play. 1.1.0 kept the game's live-loot
+  counter current within a frame, but vanilla also uses that counter for its 200-item thresholds
+  (bigger drop bundles, pile merging), so those started engaging mid-frame long before the cap was
+  reached. The fix now keeps its own count of this frame's new pickups and uses it only for the cap
+  decision; the game's counter is left alone. Bursts are still capped (3000 drops -> 402 pickups at
+  cap 400) with no loot lost.
+
 ## [1.1.0] – 2026-09-25
 
 - **Chest upgrade-card multiplier** – every chest's passive-upgrade card shared one pickup effect

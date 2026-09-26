@@ -8,11 +8,13 @@ extends Object
 # in the burst sees the stale count, finds nothing to merge into, and thousands of
 # pickups spawn at once.
 #
-# The count is now kept current within the frame (pickups vanilla just queued are
-# added to it). Once it is over the cap and vanilla has no existing pickup of that
-# item to merge into, the rest of the frame's drops of that item are bundled and
-# handed to vanilla as one drop at the end of the frame. No loot is lost; the
-# engine's own refresh next physics frame replaces the estimate with the real count.
+# The pickups vanilla queued this frame are now counted here and added to the
+# stale count for the cap decision. Once that total reaches the cap and vanilla has
+# no existing pickup of the item to merge into, the rest of the frame's drops of
+# that item are bundled and handed to vanilla as one drop at the end of the frame.
+# No loot is lost. Gvars.live_loot_count itself is left alone: vanilla's 200-item
+# split and merge thresholds read it too, and raising it mid-frame made those
+# engage early in ordinary play, far below the cap.
 
 const MOD_MAIN_PATH := "res://mods-unpacked/ingenitus-bug_fixes_mod/mod_main.gd"
 const MERGEABLE_LIVE_LOOT_COUNT := 200  # LootDropsManager.MERGEABLE_LIVE_LOOT_COUNT
@@ -20,6 +22,9 @@ const MERGEABLE_LIVE_LOOT_COUNT := 200  # LootDropsManager.MERGEABLE_LIVE_LOOT_C
 # itemResPath -> {"pos": Vector2, "count": float}, drops held back this frame.
 static var _held: Dictionary = {}
 static var _flushing: bool = false
+# Pickups vanilla queued during physics frame _queued_frame (not children yet).
+static var _queued: int = 0
+static var _queued_frame: int = -1
 
 
 func on_drop_loot(chain: ModLoaderHookChain, pos: Vector2, itemResPath: String, count: float, dropped_by_player: bool = false) -> void:
@@ -27,14 +32,26 @@ func on_drop_loot(chain: ModLoaderHookChain, pos: Vector2, itemResPath: String, 
 	if _flushing or not load(MOD_MAIN_PATH).is_on("fix_loot_burst"):
 		chain.execute_next([pos, itemResPath, count, dropped_by_player])
 		return
-	var live: int = Gvars.live_loot_count
-	if live > Gvars.settings.max_item_drops and not dropped_by_player \
+	var vanilla_count: int = Gvars.live_loot_count
+	if vanilla_count + _queued_this_frame() > Gvars.settings.max_item_drops and not dropped_by_player \
 			and not _straight_to_stockpile(manager, itemResPath) \
 			and not _has_live_pickup(manager, itemResPath):
 		_hold(manager, pos, itemResPath, count)
 		return
 	chain.execute_next([pos, itemResPath, count, dropped_by_player])
-	Gvars.live_loot_count = live + _queued_by_vanilla(manager, itemResPath, count, dropped_by_player, live)
+	_add_queued(_queued_by_vanilla(manager, itemResPath, count, dropped_by_player, vanilla_count))
+
+
+static func _queued_this_frame() -> int:
+	return _queued if _queued_frame == Engine.get_physics_frames() else 0
+
+
+static func _add_queued(n: int) -> void:
+	var frame := Engine.get_physics_frames()
+	if _queued_frame != frame:
+		_queued_frame = frame
+		_queued = 0
+	_queued += n
 
 
 static func _hold(manager, pos: Vector2, itemResPath: String, count: float) -> void:
@@ -70,7 +87,8 @@ static func _has_live_pickup(manager, itemResPath: String) -> bool:
 	return false
 
 
-# How many pickups the vanilla call just queued, following its branches.
+# How many pickups the vanilla call just queued, following its branches (which
+# read the unmodified Gvars.live_loot_count, passed in as live).
 static func _queued_by_vanilla(manager, itemResPath: String, count: float, dropped_by_player: bool, live: int) -> int:
 	if _straight_to_stockpile(manager, itemResPath):
 		return 0
